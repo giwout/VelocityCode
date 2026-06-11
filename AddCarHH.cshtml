@@ -1,0 +1,16 @@
+﻿@using CarMagazine2025_42.Data.Models
+@model Bike
+
+@using(Html.BeginForm("AddCar", "Cars", FormMethod.Post)){
+    <fieldset>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                @Html.Label("Название")
+                <br/>
+                @Html.EditorFor(c=>c.BikeName)
+            </div>
+        </div>
+
+        <input type="submit" value="Отправить"/>
+    </fieldset>
+}

@@ -1,0 +1,60 @@
+﻿@model CarMagazine2025_42.Data.ViewModels.ShopCartViewModel
+@{
+    ViewBag.Title = "Ваша корзина";
+}
+
+<div class="container my-5">
+    <div class="d-flex align-items-center gap-3 mb-5">
+        <h2 class="fw-extrabold m-0 text-dark" style="font-weight: 800; letter-spacing: -1px;">🛒 Ваша корзина</h2>
+        <span class="badge bg-primary rounded-pill px-3 py-2 fw-bold">@(Model.ShopCart.ListShopItems?.Count ?? 0) позиций</span>
+    </div>
+
+    @if (Model.ShopCart.ListShopItems == null || !Model.ShopCart.ListShopItems.Any())
+    {
+        <div class="text-center py-5 bg-white rounded-4 border shadow-sm my-4">
+            <i class="bi bi-cart-x text-muted display-1 mb-3"></i>
+            <h4 class="fw-bold">В корзине пусто</h4>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-primary px-5 py-2.5 rounded-3 fw-bold shadow-sm">Перейти в каталог</a>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm rounded-4 p-4">
+                    @foreach (var item in Model.ShopCart.ListShopItems)
+                    {
+                        <div class="row align-items-center py-3 border-bottom g-3 mx-0">
+                            <div class="col-3 col-sm-2">
+                                <img src="@item.Bike.Img" class="img-fluid rounded border p-1" style="max-height: 70px; object-fit: contain;" alt="@item.Bike.BikeName" />
+                            </div>
+                            <div class="col-6 col-sm-6">
+                                <h6 class="fw-bold mb-1 text-dark">@item.Bike.BikeName</h6>
+                                <span class="badge bg-light text-secondary border">@item.Bike.Brand</span>
+                            </div>
+                            <div class="col-3 col-sm-4 text-end">
+                                <div class="fs-5 fw-bold text-success mb-2">@item.Bike.Price.ToString("C", new System.Globalization.CultureInfo("ru-RU"))</div>
+                                <form asp-controller="ShopCart" asp-action="RemoveFromCart" asp-route-bikeId="@item.Bike.BikeId" method="post">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash"></i> Удалить
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-lg rounded-4 p-4 bg-dark text-white">
+                    <h5 class="fw-bold mb-4">Ваш заказ</h5>
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <span class="fw-bold fs-5">Итого к оплате:</span>
+                        <span class="fs-3 fw-bold">@Model.Sum.ToString("C", new System.Globalization.CultureInfo("ru-RU"))</span>
+                    </div>
+                    <a asp-controller="Order" asp-action="Checkout" class="btn btn-primary w-100 py-3 rounded-3 fw-bold shadow">Перейти к оформлению</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

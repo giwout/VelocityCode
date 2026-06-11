@@ -1,0 +1,12 @@
+﻿@using CarMagazine2025_42.Data.Models
+@model IEnumerable<Category>
+
+@foreach(var category in Model){
+    string Class = (@category.CategoryId == ViewBag.SelectedCategory) ? "btn btn-primary" : "btn btn-default";
+
+    <a class="@Class" asp-action="Index" asp-controller="Home" 
+        asp-route-category="@category.CategoryId" 
+        asp-route-page="1">
+        @category.CategoryName
+    </a>
+}

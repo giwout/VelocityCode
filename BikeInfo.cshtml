@@ -1,0 +1,72 @@
+﻿@model CarMagazine2025_42.Data.Models.Bike
+
+@{
+    ViewBag.Title = Model.BikeName;
+}
+
+<div class="container my-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Каталог</a></li>
+            <li class="breadcrumb-item active">@Model.Brand</li>
+        </ol>
+    </nav>
+
+    <div class="row g-5">
+        <div class="col-md-6">
+            <div class="sticky-top pt-3">
+                <div class="card border-0 shadow-sm rounded-4 p-3 bg-light">
+                    <img src="@Model.Img" class="img-fluid rounded-3 product-zoom" alt="@Model.BikeName">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <span class="text-primary fw-bold text-uppercase">@Model.Brand</span>
+            <h1 class="display-5 fw-bold mb-3">@Model.BikeName</h1>
+
+            <div class="d-flex align-items-center gap-3 mb-4">
+                <h2 class="text-dark fw-bold m-0">@Model.Price.ToString("C0", new System.Globalization.CultureInfo("ru-RU"))</h2>
+                <span class="badge @(Model.Available ? "bg-success" : "bg-danger") px-3 py-2">
+                    @(Model.Available ? "В наличии" : "Нет на складе")
+                </span>
+            </div>
+
+            <p class="text-muted mb-4">@Model.LongDescription</p>
+
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="fw-bold mb-3">Характеристики</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between px-0"><span>Материал рамы:</span> <span class="fw-bold">@Model.FrameMaterial</span></li>
+                        <li class="list-group-item d-flex justify-content-between px-0"><span>Диаметр колес:</span> <span class="fw-bold">@Model.WheelDiameter"</span></li>
+                        <li class="list-group-item d-flex justify-content-between px-0"><span>Размер:</span> <span class="fw-bold">@Model.FrameSize</span></li>
+                        <li class="list-group-item d-flex justify-content-between px-0"><span>Категория:</span> <span class="fw-bold">@Model.Category?.CategoryName</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <form asp-controller="ShopCart" asp-action="AddToCart" asp-route-bikeId="@Model.BikeId" method="post">
+                <button type="submit" class="btn btn-warning btn-lg rounded-pill px-5">
+                    <i class="bi bi-cart-plus"></i> Добавить в корзину
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .product-zoom {
+        transition: transform 0.5s ease;
+        cursor: zoom-in;
+    }
+
+        .product-zoom:hover {
+            transform: scale(1.05);
+        }
+
+    .breadcrumb-item a {
+        text-decoration: none;
+        color: #6c757d;
+    }
+</style>

@@ -1,0 +1,66 @@
+﻿@model CarMagazine2025_42.Data.Models.Order.Order
+@{
+    ViewBag.Title = "Детали заказа №" + Model.Id;
+}
+
+<div class="container mt-5" style="max-width: 800px;">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold mb-0">📦 Заказ № @Model.Id</h2>
+        <a asp-action="MyOrders" class="btn btn-outline-secondary px-3 rounded-3">
+            <i class="bi bi-arrow-left me-1"></i> Назад к списку
+        </a>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm p-4 bg-light rounded-4">
+                <h5 class="fw-bold mb-3 text-dark">Информация о доставке</h5>
+                <div class="row g-2 small fs-6">
+                    <div class="col-sm-4 text-muted">Получатель:</div>
+                    <div class="col-sm-8 fw-semibold text-dark">@Model.Name @Model.Sname</div>
+
+                    <div class="col-sm-4 text-muted">Телефон:</div>
+                    <div class="col-sm-8 text-dark">@Model.Phone</div>
+
+                    <div class="col-sm-4 text-muted">Email:</div>
+                    <div class="col-sm-8 text-dark">@Model.Email</div>
+
+                    <div class="col-sm-4 text-muted">Адрес доставки:</div>
+                    <div class="col-sm-8 fw-semibold text-dark">@Model.Adres</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="card border-0 shadow-sm p-4 bg-white rounded-4">
+                <h5 class="fw-bold mb-3 text-dark">Состав заказа</h5>
+
+                @{
+                    decimal totalSum = 0;
+                }
+
+                @foreach (var detail in Model.OrderDetails)
+                {
+                    totalSum += detail.Price;
+                    <div class="row align-items-center py-3 border-bottom g-3 mx-0">
+                        <div class="col-3 col-sm-2">
+                            <img src="@detail.Bike.Img" class="img-fluid rounded border p-1" style="max-height: 70px; object-fit: contain;" alt="@detail.Bike.BikeName" />
+                        </div>
+                        <div class="col-9 col-sm-7">
+                            <h6 class="fw-bold mb-1 text-dark">@detail.Bike.BikeName</h6>
+                            <span class="badge bg-light text-secondary border">@detail.Bike.Brand</span>
+                        </div>
+                        <div class="col-12 col-sm-3 text-sm-end">
+                            <span class="fs-5 fw-bold text-success">@detail.Price.ToString("C", new System.Globalization.CultureInfo("ru-RU"))</span>
+                        </div>
+                    </div>
+                }
+
+                <div class="d-flex justify-content-between align-items-center p-3 mt-3 bg-primary bg-opacity-10 rounded-3 fs-4">
+                    <span class="fw-bold text-primary">Итого к оплате:</span>
+                    <span class="fw-bold text-success">@totalSum.ToString("C", new System.Globalization.CultureInfo("ru-RU"))</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
